@@ -6,7 +6,7 @@ A learned policy steers from local observations. A\* searches the full hazard/sl
 
 ## Why
 
-Rover range is an energy budget: solar and RTG power limit meters per sol, and extra climb is science time lost. Operators still plan over precomputed costmaps. A policy that internalizes rolling and gravitational cost can propose a route from a local patch without a global replan — the same tradeoff shows up on Earth for robots on rough ground.
+The range and energy budgets rovers have needs to be computed and optimized throughout their mission time. An  efficient reliable rl policy that internalizes terrain. rolling and gravitational costs can propose a route from a local patch without a global replan and can be applied to new terrains and environments. This same tradeoff shows up on Earth for robots on rough ground.
 
 ## Architecture
 
