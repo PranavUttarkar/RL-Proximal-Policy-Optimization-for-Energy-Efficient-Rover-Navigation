@@ -1,12 +1,10 @@
-# Mars Route Zero
+# RL Proximal Policy Optimization for Energy Efficient Rover Navigation
 
-PPO for energy-efficient rover navigation on real Jezero Crater terrain, compared against a classical costmap A\* planner in 3D.
-
-A learned policy steers from local observations. A\* searches the full hazard/slope grid. Both are scored with the same mechanical drive-energy model.
+A reinforcement-learning agent (PPO) learns to drive a rover on NASA HiRISE elevation of Jezero Crater. C++ with OpenMP turns that DEM into slope and a hazard costmap; JAX scores each path as rolling plus uphill energy; A\* searches the costmap while PPO acts from a local patch 
 
 ## Why
 
-The range and energy budgets rovers have needs to be computed and optimized throughout their mission time. An  efficient reliable rl policy that internalizes terrain. rolling and gravitational costs can propose a route from a local patch without a global replan and can be applied to new terrains and environments. This same tradeoff shows up on Earth for robots on rough ground.
+Rover range is an energy budget: solar and RTG power limit meters per sol, and extra climb is science time lost. Operators still plan over precomputed costmaps. A policy that internalizes rolling and gravitational cost can propose a route from a local patch without a global replan — the same tradeoff shows up on Earth for robots on rough ground.
 
 ## Architecture
 
