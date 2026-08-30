@@ -1,108 +1,115 @@
-# RL Proximal Policy Optimization for Energy-Efficient Rover Navigation
+# Mars Route Zero
 
-**Mars Route Zero** trains a reinforcement-learning agent to navigate real Martian terrain while minimizing energy expenditure. A PPO (Proximal Policy Optimization) policy learns to steer a rover across HiRISE-derived elevation models of Jezero Crater — avoiding steep slopes, ridges, and craters — and is compared side-by-side against a classical energy-weighted A\* planner in an interactive 3D visualization.
+PPO for energy-efficient rover navigation on real Jezero Crater terrain, compared against a classical costmap A\* planner in 3D.
 
-## How it works
+A learned policy steers from local observations. A\* searches the full hazard/slope grid. Both are scored with the same mechanical drive-energy model.
 
-1. **Terrain pipeline** — NASA HiRISE Digital Terrain Models of Jezero Crater (AWS Open Data) are resampled into a 512×512 float32 elevation grid. A C++ core (`libmars`) computes Sobel slope maps and a traversal costmap from the elevation data.
-2. **Simulation environment** — A Gymnasium environment wraps `libmars` (via pybind11). The rover observes a local 15×15 costmap patch plus goal direction, distance, and heading; it acts with continuous steering and speed commands. Rewards combine potential-based goal shaping with energy-aligned penalties: per-step energy cost (`cost × distance`), steep-slope transitions, ridge/valley crossings, and revisit penalties.
-3. **Learning** — Stable-Baselines3 PPO trains on vectorized environments with evaluation and checkpoint callbacks; hyperparameters are tuned with Optuna. The trained policy exports to ONNX for in-browser inference.
-4. **Visualization** — A FastAPI backend serves terrain data, A\* plans, and live RL rollouts over WebSocket to a React + Three.js frontend, where learned trajectories render on the 3D terrain alongside the classical planner's path.
+## Why
 
-## Why it matters
+Rover range is an energy budget: solar and RTG power limit meters per sol, and extra climb is science time lost. Operators still plan over precomputed costmaps. A policy that internalizes rolling and gravitational cost can propose a route from a local patch without a global replan — the same tradeoff shows up on Earth for robots on rough ground.
 
-Energy is the binding constraint on planetary rovers: solar and RTG power budgets limit how far a rover can drive per sol, and every meter of unnecessary climb costs science time. Route planning today relies on human operators and classical planners over precomputed costmaps. A learned policy that internalizes terrain-energy trade-offs can propose efficient routes directly from local observations — without a global replan — and the same approach transfers to Earth applications like autonomous navigation for agricultural, mining, and search-and-rescue robots operating on rough terrain.
-
-## Repository layout
+## Architecture
 
 ```
-include/, src/       C++ core "libmars": terrain I/O, Sobel slope, costmap, A* planner
-python/bindings.cpp  pybind11 bindings exposing libmars to Python
-rl/                  Gymnasium env (mars_env.py), PPO training (train.py),
-                     Optuna HPO (optimize.py), ONNX export (export_onnx.py)
-backend/             FastAPI server: terrain metadata, /api/plan, RL WebSocket streaming
-frontend/            Vite + React + Three.js visualization (onnxruntime-web capable)
-scripts/             Terrain data pipeline: synthetic grid, HiRISE DTM download/preprocess
-tests/               C++ (ctest) and Python (pytest) tests
-data/                Terrain binaries + metadata (large HiRISE rasters are local-only)
+HiRISE DTM ──► libmars (C++17, OpenMP Sobel) ──► costmap + A*
+                         │
+                         └── pybind11 ──► Gymnasium env ──► PPO (SB3 / PyTorch)
+                                                │
+                         FastAPI ── /api/plan, WebSocket RL ──► React + Three.js
+                         JAX physics energy scores A* and RL the same way
 ```
+
+1. **Terrain** — HiRISE DTM (AWS Open Data) resampled to a 512×512 float32 DEM. `libmars` builds slope, roughness, and a traversal costmap (OpenMP over rows).
+2. **Planners** — 8-connected A\* minimizes costmap edge weights. PPO acts with continuous steering and speed from a 15×15 cost patch plus goal bearing.
+3. **Energy** — A\* still *plans* on the costmap. Scoring (and PPO’s energy penalty) uses Perseverance-class mechanics in JAX, not $\int c\,\mathrm{d}s$.
+4. **App** — FastAPI serves plans and live rollouts; the frontend draws both paths on the DEM.
+
+```
+include/, src/       libmars: I/O, Sobel slope, costmap, A*
+python/bindings.cpp  pybind11
+rl/                  env, PPO train, Optuna, ONNX export, JAX energy
+backend/             FastAPI: /api/plan, WebSocket
+frontend/            Vite + React + Three.js
+scripts/             DTM pipeline, A* vs RL benchmark
+```
+
+## Models
+
+**Slope** (Sobel on the DEM, cell size $\Delta$):
+
+$$
+\theta = \arctan\sqrt{g_x^2 + g_y^2}
+$$
+
+**Costmap.** With $\hat{s} = \min(1, \theta / 20^\circ)$, roughness $r$, and terrain class $t$:
+
+$$
+c = \min\bigl(1,\; 0.6\,\hat{s}^2 + 0.3\,r + 0.1\,t\bigr)
+$$
+
+Cells with $\theta > 25^\circ$ (Perseverance limit) are impassable.
+
+**A\*** edge weight (hazard-aware search, not the reported energy):
+
+$$
+w(u,v) = \Delta s \bigl(0.01 + \tfrac12(c_u + c_v)\bigr)
+$$
+
+**Drive energy** (kJ; $m = 1025\,\mathrm{kg}$, $g = 3.721\,\mathrm{m/s^2}$, $C_{rr} = 0.24$, $k_g = 0.28$). Elevation is bilinear. Climb only — no downhill regen:
+
+$$
+E = mg \sum_i \Bigl( C_{rr}\,\Delta s_i + \max(0,\Delta h_i) + k_g\,\Delta s_i \sin^2\theta_i^{\uparrow} \Bigr)
+$$
+
+where $\sin\theta_i^{\uparrow} = \max(0,\Delta h_i) / (\Delta s_i + \varepsilon)$. Rolling on extra A\* detours usually dominates.
+
+PPO reward uses the same $E$ per step, plus potential-based goal shaping ($\gamma = 0.99$).
+
+## Benchmark
+
+50 seeded start/goal pairs on Jezero (512×512, $20.89\,\mathrm{m/px}$). A\* on the costmap; PPO blended rollout, 1200-step cap. Sum is over the **22** pairs where RL reached the goal (A\* succeeded on all 50). Replay: `python scripts/bench_astar_vs_rl.py`.
+
+| | $\sum E$ (kJ) | pairs |
+|---|---|---|
+| Costmap A\* | 132 855 | 22 completed |
+| PPO | 98 465 | **26% less**; 20/22 pair wins |
+
+RL finishes 22/50 within the step cap. Incomplete episodes are not in the sum.
 
 ## Quick start
 
-Requirements: CMake 3.18+, a C++17 compiler, Python 3 with development headers, Node.js.
-
-### 1. Build the C++ core
+CMake 3.18+, C++17, Python 3 with headers, Node.js.
 
 ```bash
-python scripts/gen_synthetic_terrain.py        # dev terrain (or use real HiRISE data below)
+python scripts/gen_synthetic_terrain.py        # or real HiRISE below
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-The `libmars` extension module is built into `build/`. Add that directory to `PYTHONPATH`, or set `MARS_LIBMARS_BUILD` to point at it. On Windows without MSVC, use the MinGW preset: `cmake --preset windows-mingw` (see `CMakePresets.json`).
-
-### 2. Train the PPO policy
+`libmars` lands in `build/` — put that on `PYTHONPATH`. Windows MinGW: `cmake --preset windows-mingw`.
 
 ```bash
 pip install -r requirements.txt
-python -m rl.train --smoke                            # quick dev run (~8k steps)
-python -m rl.train --timesteps 2000000 --n-envs 8     # full training run
+python -m rl.train --smoke
+python -m rl.train --timesteps 2000000 --n-envs 8
+python -m rl.train --resume models/mars_ppo_latest.zip --timesteps 80000
 ```
 
-Outputs (under `--out-dir`, default `models/`):
-
-- `models/mars_ppo_latest.zip` — final policy (loaded by the backend)
-- `models/best/` — best model saved by the eval callback
-- `models/checkpoints/` — periodic checkpoints
-- `models/eval/` — evaluation logs
-
-All PPO hyperparameters are exposed as flags (`--learning-rate`, `--n-steps`, `--batch-size`, `--n-epochs`, `--gamma`, `--gae-lambda`, `--clip-range`, `--ent-coef`); defaults are Optuna-tuned. Add `--tensorboard` for TensorBoard logging.
-
-### 3. Tune hyperparameters (optional)
+Optuna: `python -m rl.optimize --timesteps-per-trial 12000 --trials 8`. ONNX: `python -m rl.export_onnx`.
 
 ```bash
-python -m rl.optimize --timesteps-per-trial 12000 --trials 8
-```
-
-Add `--storage sqlite:///optuna_mars.db` to persist and resume studies. Results are written to `results/optuna_results.csv`.
-
-### 4. Export to ONNX (optional, browser inference)
-
-```bash
-python -m rl.export_onnx
-```
-
-Writes `frontend/public/mars_policy.onnx` for `onnxruntime-web`.
-
-### 5. Run the app
-
-```bash
-# Backend (repo root, with PYTHONPATH including build/)
 uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
-
-# Frontend
 cd frontend && npm install && npm run dev
 ```
 
-Open **http://127.0.0.1:5173** — click the terrain to set **start** and **goal**, then run the A\* planner or stream a live RL episode (uses the trained PPO policy if `models/mars_ppo_latest.zip` exists, otherwise a goal-seeking heuristic).
+http://127.0.0.1:5173 — click start/goal, compare A\* and RL.
 
-## Real NASA terrain data
-
-Development uses a synthetic grid. For real Jezero Crater terrain:
+**HiRISE Jezero:** `./scripts/download_jezero_dtm.sh` (or `.ps1`), then `python scripts/hirise_geotiff_to_elevation_bin.py --input data/dtm/aws_sync/DTEEC_*.tif`. See `scripts/README.md`.
 
 ```bash
-./scripts/download_jezero_dtm.sh      # or .ps1 on Windows — AWS Open Data, no account needed
-python scripts/hirise_geotiff_to_elevation_bin.py --input data/dtm/aws_sync/DTEEC_*.tif
-```
-
-This writes `data/costmap/jezero_elevation.bin` and `data/dtm/jezero_meta.json` (including `meters_per_pixel`). Restart the backend to reload. See `scripts/README.md` for details. The raw multi-GB GeoTIFFs stay local and are not committed.
-
-## Tests
-
-```bash
-pytest tests/test_env.py -v         # Python environment tests
-ctest --test-dir build              # C++ tests
+pytest tests/test_env.py -v
+ctest --test-dir build
 ```
 
 ## License

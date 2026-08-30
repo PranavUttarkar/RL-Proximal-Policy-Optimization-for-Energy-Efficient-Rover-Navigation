@@ -394,13 +394,13 @@ export default function App() {
                     <span className="stat-text">
                       <strong>{pathTitle.astar}</strong>{" "}
                       {paths.astar.total_distance_m.toFixed(0)}m &middot; energy{" "}
-                      {paths.astar.energy_score.toFixed(1)}
+                      {paths.astar.energy_score.toFixed(0)} kJ
                       {comparison.astar && (
                         <span className="stat-sub">
                           max drop {comparison.astar.maxDropM.toFixed(0)}m &middot; max slope{" "}
                           {comparison.astar.maxSlopeDeg.toFixed(1)}° &middot; est fuel{" "}
                           {comparison.astar.energyPerKm != null
-                            ? `${comparison.astar.energyPerKm.toFixed(1)} /km`
+                            ? `${comparison.astar.energyPerKm.toFixed(0)} kJ/km`
                             : "—"}{" "}
                           &middot; risk {comparison.astar.riskScore.toFixed(0)}/100
                         </span>
@@ -423,14 +423,14 @@ export default function App() {
                     <span className="stat-text">
                       <strong>{pathTitle.straight}</strong>{" "}
                       {paths.straight.total_distance_m.toFixed(0)}m &middot; energy{" "}
-                      {paths.straight.energy_score.toFixed(1)}
+                      {paths.straight.energy_score.toFixed(0)} kJ
                       {comparison.straight && (
                         <span className="stat-sub">
                           max drop {comparison.straight.maxDropM.toFixed(0)}m &middot; max
                           slope {comparison.straight.maxSlopeDeg.toFixed(1)}° &middot; est
                           fuel{" "}
                           {comparison.straight.energyPerKm != null
-                            ? `${comparison.straight.energyPerKm.toFixed(1)} /km`
+                            ? `${comparison.straight.energyPerKm.toFixed(0)} kJ/km`
                             : "—"}{" "}
                           &middot; risk {comparison.straight.riskScore.toFixed(0)}/100
                         </span>

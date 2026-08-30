@@ -1,0 +1,1116 @@
+{
+  "n": 50,
+  "seed": 42,
+  "mpp": 20.88600089972676,
+  "max_steps": 1200,
+  "energy": "physics_kj_jax",
+  "rows": [
+    {
+      "i": 0,
+      "start": [
+        58,
+        388
+      ],
+      "goal": [
+        330,
+        226
+      ],
+      "astar_energy": 8298.1748046875,
+      "astar_dist": 8921.3349609375,
+      "astar_climb": 34.43115234375,
+      "astar_ok": true,
+      "straight_energy": 6682.9111328125,
+      "straight_dist": 7082.49755859375,
+      "rl_energy": 11640.6181640625,
+      "rl_dist": 11769.361328125,
+      "rl_climb": 220.46630859375,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 1,
+      "start": [
+        223,
+        428
+      ],
+      "goal": [
+        56,
+        351
+      ],
+      "astar_energy": 4525.9814453125,
+      "astar_dist": 4631.77392578125,
+      "astar_climb": 74.093017578125,
+      "astar_ok": true,
+      "straight_energy": 4105.80810546875,
+      "straight_dist": 4154.10986328125,
+      "rl_energy": 3779.7724609375,
+      "rl_dist": 3807.719482421875,
+      "rl_climb": 76.119873046875,
+      "rl_steps": 281,
+      "rl_reached": true
+    },
+    {
+      "i": 2,
+      "start": [
+        112,
+        60
+      ],
+      "goal": [
+        268,
+        485
+      ],
+      "astar_energy": 12043.4296875,
+      "astar_dist": 13090.392578125,
+      "astar_climb": 15.840576171875,
+      "astar_ok": true,
+      "straight_energy": 10085.7275390625,
+      "straight_dist": 10226.146484375,
+      "rl_energy": 11620.9892578125,
+      "rl_dist": 11201.669921875,
+      "rl_climb": 348.66455078125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 3,
+      "start": [
+        262,
+        76
+      ],
+      "goal": [
+        419,
+        232
+      ],
+      "astar_energy": 7840.06689453125,
+      "astar_dist": 8407.5810546875,
+      "astar_climb": 37.4833984375,
+      "astar_ok": true,
+      "straight_energy": 4406.21826171875,
+      "straight_dist": 4628.701171875,
+      "rl_energy": 1613.456787109375,
+      "rl_dist": 1635.4886474609375,
+      "rl_climb": 30.12548828125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 4,
+      "start": [
+        256,
+        193
+      ],
+      "goal": [
+        102,
+        461
+      ],
+      "astar_energy": 7611.9765625,
+      "astar_dist": 8121.72998046875,
+      "astar_climb": 46.241455078125,
+      "astar_ok": true,
+      "straight_energy": 6562.98779296875,
+      "straight_dist": 6929.74365234375,
+      "rl_energy": 6904.5107421875,
+      "rl_dist": 7337.87158203125,
+      "rl_climb": 48.60205078125,
+      "rl_steps": 580,
+      "rl_reached": true
+    },
+    {
+      "i": 5,
+      "start": [
+        391,
+        325
+      ],
+      "goal": [
+        208,
+        411
+      ],
+      "astar_energy": 8831.4267578125,
+      "astar_dist": 9359.94140625,
+      "astar_climb": 68.69677734375,
+      "astar_ok": true,
+      "straight_energy": 4519.7724609375,
+      "straight_dist": 4566.1474609375,
+      "rl_energy": 4205.98291015625,
+      "rl_dist": 4293.82421875,
+      "rl_climb": 71.269287109375,
+      "rl_steps": 325,
+      "rl_reached": true
+    },
+    {
+      "i": 6,
+      "start": [
+        277,
+        228
+      ],
+      "goal": [
+        232,
+        124
+      ],
+      "astar_energy": 3386.907470703125,
+      "astar_dist": 3510.84130859375,
+      "astar_climb": 45.03466796875,
+      "astar_ok": true,
+      "straight_energy": 2560.764404296875,
+      "straight_dist": 2561.450927734375,
+      "rl_energy": 2299.328125,
+      "rl_dist": 2321.760986328125,
+      "rl_climb": 44.938720703125,
+      "rl_steps": 160,
+      "rl_reached": true
+    },
+    {
+      "i": 7,
+      "start": [
+        59,
+        282
+      ],
+      "goal": [
+        442,
+        45
+      ],
+      "astar_energy": 11102.48828125,
+      "astar_dist": 11971.5595703125,
+      "astar_climb": 37.61865234375,
+      "astar_ok": true,
+      "straight_energy": 9905.8720703125,
+      "straight_dist": 10049.689453125,
+      "rl_energy": 6021.3466796875,
+      "rl_dist": 6032.5849609375,
+      "rl_climb": 126.777099609375,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 8,
+      "start": [
+        428,
+        413
+      ],
+      "goal": [
+        148,
+        319
+      ],
+      "astar_energy": 10301.8974609375,
+      "astar_dist": 10790.580078125,
+      "astar_climb": 110.458251953125,
+      "astar_ok": true,
+      "straight_energy": 6561.96923828125,
+      "straight_dist": 6661.29931640625,
+      "rl_energy": 6078.90625,
+      "rl_dist": 6151.9541015625,
+      "rl_climb": 115.665283203125,
+      "rl_steps": 533,
+      "rl_reached": true
+    },
+    {
+      "i": 9,
+      "start": [
+        94,
+        380
+      ],
+      "goal": [
+        352,
+        185
+      ],
+      "astar_energy": 8278.3076171875,
+      "astar_dist": 8850.640625,
+      "astar_climb": 46.093017578125,
+      "astar_ok": true,
+      "straight_energy": 6675.65234375,
+      "straight_dist": 7075.5859375,
+      "rl_energy": 10394.5771484375,
+      "rl_dist": 10320.7646484375,
+      "rl_climb": 242.8837890625,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 10,
+      "start": [
+        341,
+        390
+      ],
+      "goal": [
+        381,
+        108
+      ],
+      "astar_energy": 7846.55517578125,
+      "astar_dist": 8177.8349609375,
+      "astar_climb": 93.90625,
+      "astar_ok": true,
+      "straight_energy": 6073.9208984375,
+      "straight_dist": 6235.9013671875,
+      "rl_energy": 5959.0234375,
+      "rl_dist": 6159.041015625,
+      "rl_climb": 83.552734375,
+      "rl_steps": 518,
+      "rl_reached": true
+    },
+    {
+      "i": 11,
+      "start": [
+        190,
+        239
+      ],
+      "goal": [
+        254,
+        36
+      ],
+      "astar_energy": 5412.14892578125,
+      "astar_dist": 5761.10205078125,
+      "astar_climb": 36.167724609375,
+      "astar_ok": true,
+      "straight_energy": 4896.45849609375,
+      "straight_dist": 4793.53955078125,
+      "rl_energy": 3981.865966796875,
+      "rl_dist": 4084.839599609375,
+      "rl_climb": 62.83251953125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 12,
+      "start": [
+        278,
+        89
+      ],
+      "goal": [
+        373,
+        344
+      ],
+      "astar_energy": 6961.5966796875,
+      "astar_dist": 7490.08154296875,
+      "astar_climb": 27.4638671875,
+      "astar_ok": true,
+      "straight_energy": 5772.77587890625,
+      "straight_dist": 6147.80078125,
+      "rl_energy": 11880.9150390625,
+      "rl_dist": 12563.171875,
+      "rl_climb": 99.0625,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 13,
+      "start": [
+        459,
+        373
+      ],
+      "goal": [
+        191,
+        481
+      ],
+      "astar_energy": 13527.3232421875,
+      "astar_dist": 14292.41015625,
+      "astar_climb": 115.6279296875,
+      "astar_ok": true,
+      "straight_energy": 6721.9130859375,
+      "straight_dist": 6531.78515625,
+      "rl_energy": 5107.7958984375,
+      "rl_dist": 5288.50439453125,
+      "rl_climb": 68.982666015625,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 14,
+      "start": [
+        213,
+        172
+      ],
+      "goal": [
+        451,
+        193
+      ],
+      "astar_energy": 7980.9658203125,
+      "astar_dist": 8472.59375,
+      "astar_climb": 58.557861328125,
+      "astar_ok": true,
+      "straight_energy": 5086.556640625,
+      "straight_dist": 5152.54345703125,
+      "rl_energy": 9922.4521484375,
+      "rl_dist": 9724.08984375,
+      "rl_climb": 261.228271484375,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 15,
+      "start": [
+        51,
+        241
+      ],
+      "goal": [
+        398,
+        106
+      ],
+      "astar_energy": 10663.3779296875,
+      "astar_dist": 11356.85546875,
+      "astar_climb": 69.68408203125,
+      "astar_ok": true,
+      "straight_energy": 8709.8603515625,
+      "straight_dist": 8415.36328125,
+      "rl_energy": 8849.1806640625,
+      "rl_dist": 8503.51953125,
+      "rl_climb": 272.25439453125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 16,
+      "start": [
+        238,
+        77
+      ],
+      "goal": [
+        345,
+        244
+      ],
+      "astar_energy": 4540.64599609375,
+      "astar_dist": 4911.943359375,
+      "astar_climb": 11.53857421875,
+      "astar_ok": true,
+      "straight_energy": 4115.0302734375,
+      "straight_dist": 4413.64794921875,
+      "rl_energy": 4935.49560546875,
+      "rl_dist": 5297.6982421875,
+      "rl_climb": 22.1982421875,
+      "rl_steps": 376,
+      "rl_reached": true
+    },
+    {
+      "i": 17,
+      "start": [
+        174,
+        124
+      ],
+      "goal": [
+        287,
+        337
+      ],
+      "astar_energy": 6065.11376953125,
+      "astar_dist": 6498.048828125,
+      "astar_climb": 30.442626953125,
+      "astar_ok": true,
+      "straight_energy": 5112.80517578125,
+      "straight_dist": 5426.3125,
+      "rl_energy": 8276.61328125,
+      "rl_dist": 8319.443359375,
+      "rl_climb": 169.999755859375,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 18,
+      "start": [
+        468,
+        225
+      ],
+      "goal": [
+        92,
+        416
+      ],
+      "astar_energy": 13036.3427734375,
+      "astar_dist": 13779.88671875,
+      "astar_climb": 110.03125,
+      "astar_ok": true,
+      "straight_energy": 9265.8037109375,
+      "straight_dist": 9505.5302734375,
+      "rl_energy": 8998.1953125,
+      "rl_dist": 9301.291015625,
+      "rl_climb": 125.1630859375,
+      "rl_steps": 847,
+      "rl_reached": true
+    },
+    {
+      "i": 19,
+      "start": [
+        318,
+        352
+      ],
+      "goal": [
+        61,
+        165
+      ],
+      "astar_energy": 11373.0302734375,
+      "astar_dist": 11934.4951171875,
+      "astar_climb": 116.85595703125,
+      "astar_ok": true,
+      "straight_energy": 7374.6572265625,
+      "straight_dist": 6985.490234375,
+      "rl_energy": 4992.90966796875,
+      "rl_dist": 4965.06201171875,
+      "rl_climb": 115.0947265625,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 20,
+      "start": [
+        385,
+        416
+      ],
+      "goal": [
+        224,
+        402
+      ],
+      "astar_energy": 4290.99853515625,
+      "astar_dist": 4502.0048828125,
+      "astar_climb": 44.13916015625,
+      "astar_ok": true,
+      "straight_energy": 3383.238525390625,
+      "straight_dist": 3483.762939453125,
+      "rl_energy": 3215.578857421875,
+      "rl_dist": 3332.564697265625,
+      "rl_climb": 42.7890625,
+      "rl_steps": 244,
+      "rl_reached": true
+    },
+    {
+      "i": 21,
+      "start": [
+        420,
+        201
+      ],
+      "goal": [
+        447,
+        153
+      ],
+      "astar_energy": 1525.1185302734375,
+      "astar_dist": 1538.65185546875,
+      "astar_climb": 30.231201171875,
+      "astar_ok": true,
+      "straight_energy": 1256.437744140625,
+      "straight_dist": 1236.1123046875,
+      "rl_energy": 1211.347412109375,
+      "rl_dist": 1172.032470703125,
+      "rl_climb": 35.6640625,
+      "rl_steps": 77,
+      "rl_reached": true
+    },
+    {
+      "i": 22,
+      "start": [
+        130,
+        343
+      ],
+      "goal": [
+        321,
+        82
+      ],
+      "astar_energy": 8435.669921875,
+      "astar_dist": 8921.333984375,
+      "astar_climb": 70.1015625,
+      "astar_ok": true,
+      "straight_energy": 7004.2939453125,
+      "straight_dist": 7103.63916015625,
+      "rl_energy": 3602.277099609375,
+      "rl_dist": 3616.3212890625,
+      "rl_climb": 74.811767578125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 23,
+      "start": [
+        416,
+        111
+      ],
+      "goal": [
+        402,
+        18
+      ],
+      "astar_energy": 8506.6298828125,
+      "astar_dist": 9096.2041015625,
+      "astar_climb": 46.857421875,
+      "astar_ok": true,
+      "straight_energy": 1913.755859375,
+      "straight_dist": 2063.515380859375,
+      "rl_energy": 253.93661499023438,
+      "rl_dist": 261.1820983886719,
+      "rl_climb": 3.8603515625,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 24,
+      "start": [
+        399,
+        394
+      ],
+      "goal": [
+        391,
+        335
+      ],
+      "astar_energy": 1311.12060546875,
+      "astar_dist": 1412.4661865234375,
+      "astar_climb": 4.74951171875,
+      "astar_ok": true,
+      "straight_energy": 1210.281982421875,
+      "straight_dist": 1301.48388671875,
+      "rl_energy": 1110.13623046875,
+      "rl_dist": 1198.5654296875,
+      "rl_climb": 3.40087890625,
+      "rl_steps": 80,
+      "rl_reached": true
+    },
+    {
+      "i": 25,
+      "start": [
+        242,
+        354
+      ],
+      "goal": [
+        148,
+        391
+      ],
+      "astar_energy": 2842.5244140625,
+      "astar_dist": 2959.769287109375,
+      "astar_climb": 34.6640625,
+      "astar_ok": true,
+      "straight_energy": 2243.615966796875,
+      "straight_dist": 2283.380859375,
+      "rl_energy": 2058.777099609375,
+      "rl_dist": 2069.182861328125,
+      "rl_climb": 42.664794921875,
+      "rl_steps": 140,
+      "rl_reached": true
+    },
+    {
+      "i": 26,
+      "start": [
+        282,
+        236
+      ],
+      "goal": [
+        258,
+        289
+      ],
+      "astar_energy": 1556.039306640625,
+      "astar_dist": 1688.43701171875,
+      "astar_climb": 2.74072265625,
+      "astar_ok": true,
+      "straight_energy": 1212.9317626953125,
+      "straight_dist": 1314.588623046875,
+      "rl_energy": 1081.8028564453125,
+      "rl_dist": 1172.535888671875,
+      "rl_climb": 2.2197265625,
+      "rl_steps": 77,
+      "rl_reached": true
+    },
+    {
+      "i": 27,
+      "start": [
+        32,
+        82
+      ],
+      "goal": [
+        133,
+        70
+      ],
+      "astar_energy": 4371.85546875,
+      "astar_dist": 4541.677734375,
+      "astar_climb": 55.021240234375,
+      "astar_ok": true,
+      "straight_energy": 2305.64990234375,
+      "straight_dist": 2213.30078125,
+      "rl_energy": 2419.240234375,
+      "rl_dist": 2412.855712890625,
+      "rl_climb": 53.642333984375,
+      "rl_steps": 164,
+      "rl_reached": true
+    },
+    {
+      "i": 28,
+      "start": [
+        226,
+        337
+      ],
+      "goal": [
+        330,
+        242
+      ],
+      "astar_energy": 4322.3984375,
+      "astar_dist": 4595.68408203125,
+      "astar_climb": 30.1171875,
+      "astar_ok": true,
+      "straight_energy": 2866.032958984375,
+      "straight_dist": 2994.014892578125,
+      "rl_energy": 3208.35595703125,
+      "rl_dist": 3371.392333984375,
+      "rl_climb": 31.730224609375,
+      "rl_steps": 238,
+      "rl_reached": true
+    },
+    {
+      "i": 29,
+      "start": [
+        427,
+        287
+      ],
+      "goal": [
+        53,
+        383
+      ],
+      "astar_energy": 12138.2802734375,
+      "astar_dist": 12770.8056640625,
+      "astar_climb": 116.6689453125,
+      "astar_ok": true,
+      "straight_energy": 8478.4921875,
+      "straight_dist": 8641.884765625,
+      "rl_energy": 8172.609375,
+      "rl_dist": 8273.2685546875,
+      "rl_climb": 154.27099609375,
+      "rl_steps": 727,
+      "rl_reached": true
+    },
+    {
+      "i": 30,
+      "start": [
+        58,
+        284
+      ],
+      "goal": [
+        398,
+        161
+      ],
+      "astar_energy": 9652.9833984375,
+      "astar_dist": 10334.6708984375,
+      "astar_climb": 50.277587890625,
+      "astar_ok": true,
+      "straight_energy": 7794.69384765625,
+      "straight_dist": 8165.34619140625,
+      "rl_energy": 10099.103515625,
+      "rl_dist": 10121.85546875,
+      "rl_climb": 212.697509765625,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 31,
+      "start": [
+        305,
+        29
+      ],
+      "goal": [
+        182,
+        225
+      ],
+      "astar_energy": 5574.646484375,
+      "astar_dist": 5894.45458984375,
+      "astar_climb": 43.232666015625,
+      "astar_ok": true,
+      "straight_energy": 4930.9501953125,
+      "straight_dist": 5157.76220703125,
+      "rl_energy": 5881.6298828125,
+      "rl_dist": 6425.4404296875,
+      "rl_climb": 0.0,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 32,
+      "start": [
+        148,
+        211
+      ],
+      "goal": [
+        493,
+        426
+      ],
+      "astar_energy": 11891.2412109375,
+      "astar_dist": 12812.5791015625,
+      "astar_climb": 42.510986328125,
+      "astar_ok": true,
+      "straight_energy": 8618.359375,
+      "straight_dist": 9065.693359375,
+      "rl_energy": 11767.01953125,
+      "rl_dist": 11962.212890625,
+      "rl_climb": 211.003662109375,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 33,
+      "start": [
+        411,
+        43
+      ],
+      "goal": [
+        427,
+        150
+      ],
+      "astar_energy": 8848.8427734375,
+      "astar_dist": 9358.2001953125,
+      "astar_climb": 70.072509765625,
+      "astar_ok": true,
+      "straight_energy": 2398.569091796875,
+      "straight_dist": 2373.221923828125,
+      "rl_energy": 1130.5777587890625,
+      "rl_dist": 1235.1099853515625,
+      "rl_climb": 0.0,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 34,
+      "start": [
+        457,
+        156
+      ],
+      "goal": [
+        224,
+        334
+      ],
+      "astar_energy": 9130.6796875,
+      "astar_dist": 9754.0615234375,
+      "astar_climb": 52.631103515625,
+      "astar_ok": true,
+      "straight_energy": 6191.39208984375,
+      "straight_dist": 6406.3642578125,
+      "rl_energy": 6227.43603515625,
+      "rl_dist": 6436.7734375,
+      "rl_climb": 86.310302734375,
+      "rl_steps": 537,
+      "rl_reached": true
+    },
+    {
+      "i": 35,
+      "start": [
+        75,
+        283
+      ],
+      "goal": [
+        258,
+        392
+      ],
+      "astar_energy": 5311.24365234375,
+      "astar_dist": 5756.28955078125,
+      "astar_climb": 10.9853515625,
+      "astar_ok": true,
+      "straight_energy": 4533.08642578125,
+      "straight_dist": 4765.12646484375,
+      "rl_energy": 7707.724609375,
+      "rl_dist": 8246.462890625,
+      "rl_climb": 41.3984375,
+      "rl_steps": 637,
+      "rl_reached": true
+    },
+    {
+      "i": 36,
+      "start": [
+        495,
+        335
+      ],
+      "goal": [
+        212,
+        210
+      ],
+      "astar_energy": 10333.22265625,
+      "astar_dist": 10778.345703125,
+      "astar_climb": 121.4853515625,
+      "astar_ok": true,
+      "straight_energy": 6919.173828125,
+      "straight_dist": 6992.14697265625,
+      "rl_energy": 6835.203125,
+      "rl_dist": 6962.2236328125,
+      "rl_climb": 119.695068359375,
+      "rl_steps": 596,
+      "rl_reached": true
+    },
+    {
+      "i": 37,
+      "start": [
+        216,
+        407
+      ],
+      "goal": [
+        169,
+        95
+      ],
+      "astar_energy": 9268.6396484375,
+      "astar_dist": 9563.7333984375,
+      "astar_climb": 132.296630859375,
+      "astar_ok": true,
+      "straight_energy": 7042.921875,
+      "straight_dist": 6923.041015625,
+      "rl_energy": 4819.45263671875,
+      "rl_dist": 4907.46923828125,
+      "rl_climb": 84.079345703125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 38,
+      "start": [
+        176,
+        25
+      ],
+      "goal": [
+        66,
+        58
+      ],
+      "astar_energy": 12074.0205078125,
+      "astar_dist": 12338.498046875,
+      "astar_climb": 195.104248046875,
+      "astar_ok": true,
+      "straight_energy": 3445.1962890625,
+      "straight_dist": 2582.95166015625,
+      "rl_energy": 1326.0672607421875,
+      "rl_dist": 1448.67431640625,
+      "rl_climb": 0.0,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 39,
+      "start": [
+        386,
+        363
+      ],
+      "goal": [
+        350,
+        237
+      ],
+      "astar_energy": 3465.737548828125,
+      "astar_dist": 3657.913330078125,
+      "astar_climb": 30.595703125,
+      "astar_ok": true,
+      "straight_energy": 2822.00634765625,
+      "straight_dist": 2943.08154296875,
+      "rl_energy": 2589.93505859375,
+      "rl_dist": 2685.78076171875,
+      "rl_climb": 34.155517578125,
+      "rl_steps": 190,
+      "rl_reached": true
+    },
+    {
+      "i": 40,
+      "start": [
+        360,
+        92
+      ],
+      "goal": [
+        449,
+        256
+      ],
+      "astar_energy": 4789.65869140625,
+      "astar_dist": 5156.892578125,
+      "astar_climb": 18.04248046875,
+      "astar_ok": true,
+      "straight_energy": 3934.364013671875,
+      "straight_dist": 4195.267578125,
+      "rl_energy": 463.0002136230469,
+      "rl_dist": 471.40985107421875,
+      "rl_climb": 8.11767578125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 41,
+      "start": [
+        467,
+        88
+      ],
+      "goal": [
+        254,
+        350
+      ],
+      "astar_energy": 11317.087890625,
+      "astar_dist": 12132.0966796875,
+      "astar_climb": 51.7216796875,
+      "astar_ok": true,
+      "straight_energy": 7071.92529296875,
+      "straight_dist": 7314.853515625,
+      "rl_energy": 8591.3251953125,
+      "rl_dist": 9385.671875,
+      "rl_climb": 0.0,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 42,
+      "start": [
+        130,
+        160
+      ],
+      "goal": [
+        344,
+        318
+      ],
+      "astar_energy": 7027.17138671875,
+      "astar_dist": 7583.76220703125,
+      "astar_climb": 22.20849609375,
+      "astar_ok": true,
+      "straight_energy": 5467.734375,
+      "straight_dist": 5836.5048828125,
+      "rl_energy": 11834.7734375,
+      "rl_dist": 12130.875,
+      "rl_climb": 189.27392578125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 43,
+      "start": [
+        307,
+        189
+      ],
+      "goal": [
+        477,
+        57
+      ],
+      "astar_energy": 7037.33154296875,
+      "astar_dist": 7522.43603515625,
+      "astar_climb": 39.390869140625,
+      "astar_ok": true,
+      "straight_energy": 4564.23046875,
+      "straight_dist": 4692.58837890625,
+      "rl_energy": 2545.26220703125,
+      "rl_dist": 2540.554931640625,
+      "rl_climb": 56.848876953125,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 44,
+      "start": [
+        180,
+        71
+      ],
+      "goal": [
+        178,
+        478
+      ],
+      "astar_energy": 10148.23828125,
+      "astar_dist": 10990.7890625,
+      "astar_climb": 22.802490234375,
+      "astar_ok": true,
+      "straight_energy": 8098.0263671875,
+      "straight_dist": 8517.900390625,
+      "rl_energy": 11434.7431640625,
+      "rl_dist": 10940.51953125,
+      "rl_climb": 361.450927734375,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 45,
+      "start": [
+        191,
+        452
+      ],
+      "goal": [
+        253,
+        352
+      ],
+      "astar_energy": 5381.26708984375,
+      "astar_dist": 5819.56201171875,
+      "astar_climb": 14.152587890625,
+      "astar_ok": true,
+      "straight_energy": 2496.47021484375,
+      "straight_dist": 2624.978759765625,
+      "rl_energy": 274.3019104003906,
+      "rl_dist": 299.66363525390625,
+      "rl_climb": 0.0,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 46,
+      "start": [
+        235,
+        143
+      ],
+      "goal": [
+        383,
+        482
+      ],
+      "astar_energy": 9690.208984375,
+      "astar_dist": 10432.5478515625,
+      "astar_climb": 36.66015625,
+      "astar_ok": true,
+      "straight_energy": 7887.2138671875,
+      "straight_dist": 8360.7421875,
+      "rl_energy": 7640.71826171875,
+      "rl_dist": 8173.6298828125,
+      "rl_climb": 41.34326171875,
+      "rl_steps": 577,
+      "rl_reached": true
+    },
+    {
+      "i": 47,
+      "start": [
+        395,
+        231
+      ],
+      "goal": [
+        370,
+        146
+      ],
+      "astar_energy": 2484.19384765625,
+      "astar_dist": 2535.497314453125,
+      "astar_climb": 42.33544921875,
+      "astar_ok": true,
+      "straight_energy": 2011.0947265625,
+      "straight_dist": 1991.591552734375,
+      "rl_energy": 1825.408935546875,
+      "rl_dist": 1798.3841552734375,
+      "rl_climb": 46.358642578125,
+      "rl_steps": 123,
+      "rl_reached": true
+    },
+    {
+      "i": 48,
+      "start": [
+        53,
+        61
+      ],
+      "goal": [
+        230,
+        450
+      ],
+      "astar_energy": 11087.462890625,
+      "astar_dist": 12041.6416015625,
+      "astar_climb": 16.960693359375,
+      "astar_ok": true,
+      "straight_energy": 9555.287109375,
+      "straight_dist": 9655.9287109375,
+      "rl_energy": 9066.6943359375,
+      "rl_dist": 8644.3125,
+      "rl_climb": 293.85791015625,
+      "rl_steps": 1200,
+      "rl_reached": false
+    },
+    {
+      "i": 49,
+      "start": [
+        76,
+        234
+      ],
+      "goal": [
+        354,
+        112
+      ],
+      "astar_energy": 9099.4541015625,
+      "astar_dist": 9750.478515625,
+      "astar_climb": 45.461181640625,
+      "astar_ok": true,
+      "straight_energy": 7015.7548828125,
+      "straight_dist": 6861.76318359375,
+      "rl_energy": 7308.56396484375,
+      "rl_dist": 6918.9658203125,
+      "rl_climb": 248.785888671875,
+      "rl_steps": 1200,
+      "rl_reached": false
+    }
+  ],
+  "summary": {
+    "n_completed": 22,
+    "sum_astar_kj": 132855.3555908203,
+    "sum_rl_kj": 98465.48889160156,
+    "rl_pct_less_energy": 25.885194124304412,
+    "rl_beats_astar": true
+  }
+}

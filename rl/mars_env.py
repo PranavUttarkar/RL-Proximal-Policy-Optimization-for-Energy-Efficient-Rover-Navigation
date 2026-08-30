@@ -17,6 +17,7 @@ from dll_windows import ensure_mingw_dll_dirs
 ensure_mingw_dll_dirs(_RL_ROOT)
 
 import libmars
+from rl.physics_energy import segment_energy_kj
 
 
 class MarsRoverEnv(gym.Env):
@@ -27,6 +28,7 @@ class MarsRoverEnv(gym.Env):
     PATCH_SIZE = 15
     MAX_STEPS = 2000
     GOAL_RADIUS = 3
+    # Fallback when meters_per_pixel is missing; real DTM uses ~1 cell per full-speed step.
     STEP_SIZE_M = 2.0
     HEADING_LIMIT = 30.0
     # Match PPO gamma so potential-based shaping does not distort the objective (Ng et al.).
@@ -36,16 +38,14 @@ class MarsRoverEnv(gym.Env):
     # Episode ends if the rover is in unsurvivable terrain (after a successful move).
     TERMINATE_COST = 0.92
 
-    # Reward alignment with energy-optimized planner:
-    # Planner energy is computed as integral(cost(x) * ds). We approximate this per step
-    # by penalizing mid_cost * distance_m (mid_cost = avg of old/new cell costs).
-    ENERGY_STEP_PENALTY_SCALE = 2.0
+    # Physics energy (kJ) → reward. ~0.01 × ~20 kJ/step keeps this O(0.2) vs goal +100.
+    ENERGY_STEP_PENALTY_SCALE = 0.01
 
     # "Mountain" / "valley" penalties are based on local elevation contrast.
     # Values are normalized by the elevation range seen in this terrain grid.
     REL_RIDGE_THRESH_NORM = 0.05   # center above neighbor mean by this fraction -> ridge
     REL_VALLEY_THRESH_NORM = 0.05  # center below neighbor mean by this fraction -> valley
-    TERRAIN_REL_PENALTY_SCALE = 25.0
+    TERRAIN_REL_PENALTY_SCALE = 12.0
 
     # Extra penalty for steep uphill/downhill transitions during a single move.
     STEEP_SLOPE_THRESH_DEG = 14.0
@@ -64,6 +64,9 @@ class MarsRoverEnv(gym.Env):
         self.H = self.grid.height
         self._max_diag = float(np.hypot(self.W, self.H))
         self.random_start_goal = random_start_goal
+        self.meters_per_pixel = float(getattr(self.grid, "meters_per_pixel", mpp) or mpp)
+        # Grid kinematics: ~1.2 cells at full throttle (512-scale goals stay reachable).
+        self.step_cells = 1.2
 
         # Cache elevation/cost maps so reward shaping can be computed cheaply.
         # shapes: (H, W)
@@ -122,10 +125,13 @@ class MarsRoverEnv(gym.Env):
         else:
             self._reset_state()
 
-        self.heading_deg = float(options.get("heading_deg", 0.0))
+        goal_vec = self.goal - self.pos
+        default_heading = float(np.degrees(np.arctan2(goal_vec[1], goal_vec[0])) % 360.0)
+        self.heading_deg = float(options.get("heading_deg", default_heading))
         self.step_count = 0
         self.trajectory = [self.pos.copy()]
         self._visited = set()
+        self.episode_energy_kj = 0.0
         return self._get_obs(), {}
 
     def step(self, action):
@@ -137,9 +143,9 @@ class MarsRoverEnv(gym.Env):
         self.heading_deg = self.heading_deg % 360.0
 
         rad = np.deg2rad(self.heading_deg)
-        step_scale = self.STEP_SIZE_M * (0.3 + 0.7 * speed_f)
-        dx = np.cos(rad) * step_scale
-        dy = np.sin(rad) * step_scale
+        step_cells = self.step_cells * (0.3 + 0.7 * speed_f)
+        dx = np.cos(rad) * step_cells
+        dy = np.sin(rad) * step_cells
 
         old_pos = self.pos.copy()
         old_col = int(old_pos[0])
@@ -172,11 +178,20 @@ class MarsRoverEnv(gym.Env):
         phi_new = -dist_to_goal / (self._max_diag + 1e-8)
         dist_norm = dist_to_goal / (self._max_diag + 1e-8)
 
-        meters_per_pixel = float(getattr(self.grid, "meters_per_pixel", 1.0))
         dist_cells = float(np.linalg.norm(self.pos - old_pos))
-        dist_m = dist_cells * meters_per_pixel
-        dist_scale = dist_m / (self.STEP_SIZE_M + 1e-6)
-        mid_cost = 0.5 * (old_cost + cell_cost)
+        dist_m = dist_cells * self.meters_per_pixel
+        dist_scale = dist_cells / (self.step_cells + 1e-6)
+        step_energy_kj = 0.0
+        if not blocked and dist_cells > 1e-8:
+            step_energy_kj = segment_energy_kj(
+                self.elev_map,
+                float(old_pos[1]),
+                float(old_pos[0]),
+                float(self.pos[1]),
+                float(self.pos[0]),
+                self.meters_per_pixel,
+            )
+            self.episode_energy_kj += step_energy_kj
 
         # Steep per-step transition penalty (mountain crossings + deep descents).
         step_slope_deg = float(
@@ -223,10 +238,8 @@ class MarsRoverEnv(gym.Env):
         # Only reward "face the goal" when it comes with real progress (potential increased).
         if not blocked and phi_new > phi_old + 1e-5:
             reward += 0.045 * max(0.0, heading_align) * (0.2 + 0.8 * speed_f)
-        # Energy-aligned penalties:
-        # - Approximate planner energy: integral(cost(x) * ds) ~= mid_cost * dist_m per step.
-        # - Add explicit "ridge/valley" and steep transition penalties from elevation contrast.
-        reward -= self.ENERGY_STEP_PENALTY_SCALE * mid_cost * dist_m
+        # Physics energy (rolling + uphill PE). Hazard costmap stays a hard block, not the score.
+        reward -= self.ENERGY_STEP_PENALTY_SCALE * step_energy_kj
         reward -= terrain_rel_pen
         reward -= steep_slope_pen
         reward -= 0.035 * abs(steer)
@@ -257,6 +270,8 @@ class MarsRoverEnv(gym.Env):
                 "dist_to_goal": dist_to_goal,
                 "pos": self.pos.copy(),
                 "trajectory": self.trajectory.copy(),
+                "energy_kj": float(self.episode_energy_kj),
+                "step_energy_kj": float(step_energy_kj),
             },
         )
 

@@ -39,7 +39,7 @@ def blended_action(
     if rng is None:
         rng = np.random.default_rng()
 
-    base = float(os.environ.get("MARS_RL_GOAL_BLEND", "0.32"))
+    base = float(os.environ.get("MARS_RL_GOAL_BLEND", "0.45"))
     d = float(np.linalg.norm(env.goal - env.pos))
     dmax = float(np.hypot(env.W, env.H))
     # Stronger goal bias near the endpoint; keep more policy when far (terrain reasoning).

@@ -5,8 +5,21 @@ import argparse
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+import json
 
 _ROOT = Path(__file__).resolve().parents[1]
+
+
+def _default_mpp() -> float:
+    meta = _ROOT / "data" / "dtm" / "jezero_meta.json"
+    if meta.is_file():
+        try:
+            m = json.loads(meta.read_text(encoding="utf-8")).get("meters_per_pixel")
+            if isinstance(m, (int, float)) and m > 0:
+                return float(m)
+        except (json.JSONDecodeError, OSError):
+            pass
+    return 1.0
 
 for _p in (
     _ROOT,
@@ -51,6 +64,7 @@ def train_ppo(
     output_dir: Path,
     seed: int,
     tensorboard_dir: Path | None = None,
+    resume: Path | None = None,
 ) -> Path:
     if not terrain_path.is_file():
         raise SystemExit(f"Terrain file not found: {terrain_path}")
@@ -69,23 +83,31 @@ def train_ppo(
     train_env = make_vec_env(make_env, n_envs=config.n_envs, seed=seed)
     eval_env = make_vec_env(make_env, n_envs=1, seed=seed + 1)
 
-    model = PPO(
-        "MlpPolicy",
-        train_env,
-        learning_rate=config.learning_rate,
-        n_steps=config.n_steps,
-        batch_size=config.batch_size,
-        n_epochs=config.n_epochs,
-        gamma=config.gamma,
-        gae_lambda=config.gae_lambda,
-        clip_range=config.clip_range,
-        ent_coef=config.ent_coef,
-        max_grad_norm=config.max_grad_norm,
-        policy_kwargs=dict(net_arch=[256, 256, 128]),
-        tensorboard_log=str(tensorboard_dir) if tensorboard_dir else None,
-        seed=seed,
-        verbose=1,
-    )
+    if resume is not None and resume.is_file():
+        model = PPO.load(
+            str(resume),
+            env=train_env,
+            tensorboard_log=str(tensorboard_dir) if tensorboard_dir else None,
+        )
+        print(f"Resumed PPO from {resume}", flush=True)
+    else:
+        model = PPO(
+            "MlpPolicy",
+            train_env,
+            learning_rate=config.learning_rate,
+            n_steps=config.n_steps,
+            batch_size=config.batch_size,
+            n_epochs=config.n_epochs,
+            gamma=config.gamma,
+            gae_lambda=config.gae_lambda,
+            clip_range=config.clip_range,
+            ent_coef=config.ent_coef,
+            max_grad_norm=config.max_grad_norm,
+            policy_kwargs=dict(net_arch=[256, 256, 128]),
+            tensorboard_log=str(tensorboard_dir) if tensorboard_dir else None,
+            seed=seed,
+            verbose=1,
+        )
 
     callbacks = [
         EvalCallback(
@@ -123,7 +145,8 @@ def main() -> None:
         help="Float32 elevation binary",
     )
     ap.add_argument("--grid", type=int, default=512)
-    ap.add_argument("--mpp", type=float, default=1.0)
+    ap.add_argument("--mpp", type=float, default=None, help="Meters per pixel (default: jezero_meta.json or 1.0)")
+    ap.add_argument("--resume", type=Path, default=None, help="Continue from a PPO .zip")
     ap.add_argument("--timesteps", type=int, default=PPOConfig.total_timesteps)
     ap.add_argument(
         "--smoke",
@@ -174,14 +197,17 @@ def main() -> None:
         checkpoint_freq=args.checkpoint_freq,
     )
 
+    mpp = args.mpp if args.mpp is not None else _default_mpp()
+
     model_zip = train_ppo(
         config=config,
         terrain_path=args.terrain,
         grid_size=args.grid,
-        meters_per_pixel=args.mpp,
+        meters_per_pixel=mpp,
         output_dir=args.out_dir,
         seed=args.seed,
         tensorboard_dir=args.tensorboard,
+        resume=args.resume,
     )
     print(f"Saved final PPO model: {model_zip}")
 

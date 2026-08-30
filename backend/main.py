@@ -48,6 +48,8 @@ for _extra in (
 
 import numpy as np
 
+from rl.physics_energy import path_energy_kj
+
 try:
     import libmars
 except ImportError as e:
@@ -144,12 +146,18 @@ async def plan_route(req: PlanRequest):
     else:
         path = libmars.straight_line(TERRAIN, start, goal)
     elev_m = [float(ELEV[p.row, p.col]) for p in path.waypoints]
+    phys = path_energy_kj(
+        ELEV,
+        [p.row for p in path.waypoints],
+        [p.col for p in path.waypoints],
+        _MPP,
+    )
     return PlanResponse(
         waypoints=[[p.col, p.row] for p in path.waypoints],
         elevations_m=elev_m,
         total_cost=float(path.total_cost),
-        total_distance_m=float(path.total_distance_m),
-        energy_score=float(path.energy_score),
+        total_distance_m=float(phys["distance_m"] or path.total_distance_m),
+        energy_score=float(phys["energy_kj"]),
         planner=req.planner,
     )
 
